@@ -1,10 +1,11 @@
 import React from "react";
 import "./App.css";
 import { Header } from "./Header";
-import { useSelector, Provider, useDispatch } from "react-redux";
+// import { useSelector, Provider, useDispatch } from "react-redux";
 import { IState } from "./store";
 import { store } from "./store";
 import { delItem, editItem } from "./store/actionCreator";
+import { useSelector, Provider, useDispatch } from "./react-redux";
 export interface IItem {
   id: number;
   name: string;
@@ -62,8 +63,8 @@ const List: React.FC<IList> = React.memo((props) => {
   );
 });
 
-function InitApp() {
-  const data = useSelector((state: IState) => state.list);
+function InitApp() {  
+  const data: IItem[] = useSelector((state: IState) => state.list);
 
   const doingData = data.filter((it) => it.status === "doing");
   const doneData = data.filter((it) => it.status === "done");
