@@ -1,6 +1,8 @@
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import { IItem } from "../App";
 import { ADD, DEL, EDIT } from "./actionTypes";
+import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 
 export interface IState {
   list: IItem[];
@@ -55,4 +57,4 @@ function reducer(
   }
 }
 
-export const store = createStore(reducer as any, { list: [] } as IState);
+export const store = createStore(reducer as any, { list: [] } as IState, applyMiddleware(thunk, logger));

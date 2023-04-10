@@ -15,3 +15,12 @@ export const delItem = (id: number) => ({
     type: DEL,
     data: id,
 })
+
+export const asyncSddItem = (item: IItem) => (dispatch: any) => {
+    setTimeout(() => {
+        dispatch(({
+            type: ADD,
+            data: item
+        }))
+    }, 1000)
+}

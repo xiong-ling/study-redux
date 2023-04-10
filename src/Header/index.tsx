@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./index.css";
 import { useDispatch, connect } from "react-redux";
-import { addItem } from "../store/actionCreator";
+import { addItem, asyncSddItem } from "../store/actionCreator";
 
 let id = 0;
 
@@ -11,39 +11,58 @@ export const Header = connect(
     addItem: (action: any) => {
       dispatch(action);
     },
+    dispatch,
   })
-)((props: {
+)(
+  (props: {
     addItem: (action: any) => void;
-}) => {
-  const [value, setState] = useState("");
+    dispatch: React.Dispatch<any>;
+  }) => {
+    const [value, setState] = useState("");
 
-  return (
-    <div className="header">
-      <div className="header-wrap">
-        <div className="header-title">ToDoList</div>
-        <input
-          type="text"
-          placeholder="添加ToDo"
-          onKeyDown={(e: any) => {
-            if (e.keyCode === 13) {
-              props?.addItem(
-                addItem({
-                  name: e.target.value,
-                  id: id,
-                  status: "doing",
-                })
-              );
-              setState("");
-              id++;
-            }
+    return (
+      <div className="header">
+        <div className="header-wrap">
+          <div className="header-title">ToDoList</div>
+          <input
+            type="text"
+            placeholder="添加ToDo"
+            onKeyDown={(e: any) => {
+              if (e.keyCode === 13) {
+                props?.addItem(
+                  addItem({
+                    name: e.target.value,
+                    id: id,
+                    status: "doing",
+                  })
+                );
+                setState("");
+                id++;
+              }
+            }}
+            onChange={(e) => setState(e.target.value)}
+            value={value}
+          />
+        </div>
+        <button
+          onClick={() => {
+            props.dispatch(
+              asyncSddItem({
+                name: value,
+                id: id,
+                status: "doing",
+              })
+            );
+            setState("");
+            id++;
           }}
-          onChange={(e) => setState(e.target.value)}
-          value={value}
-        />
+        >
+          异步添加
+        </button>
       </div>
-    </div>
-  );
-});
+    );
+  }
+);
 
 // export const Header = React.memo(() => {
 //   const dispatch = useDispatch();
